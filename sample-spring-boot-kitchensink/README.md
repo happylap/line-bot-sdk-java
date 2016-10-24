@@ -15,3 +15,5 @@ You can run this sample bot via gradle.
 
   * line.bot.channelToken: Your channel access token
   * line.bot.channelSecret: Your channel secret
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/line/line-bot-sdk-java)
