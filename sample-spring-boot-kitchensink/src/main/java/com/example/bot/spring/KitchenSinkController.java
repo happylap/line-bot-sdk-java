@@ -240,7 +240,7 @@ public class KitchenSinkController {
             throws IOException {
         String text = content.getText();
 
-        log.info("Got text message from {}: {}, userID = {}", replyToken, text, event.getSource.getUserId);
+        log.info("Got text message from {}: {}, userID = {}", replyToken, text, event.getSource().getUserId());
         switch (text) {
             case "profile": {
                 String userId = event.getSource().getUserId();
