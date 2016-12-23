@@ -206,10 +206,14 @@ public class KitchenSinkController {
         }
     }
     
+    private void push(@NonNull String userId, @NonNull Message message) {
+        push(userId, Collections.singletonList(message));
+    }
+    
     private void push(@NonNull String userId, @NonNull List<Message> messages) {
         try {
             Response<BotApiResponse> apiResponse = lineMessagingService
-            .replyMessage(new PushMessage(userId, messages))
+            .pushMessage(new PushMessage(userId, messages))
             .execute();
             log.info("Push messages: {}", apiResponse);
         } catch (IOException e) {
