@@ -205,6 +205,17 @@ public class KitchenSinkController {
             throw new UncheckedIOException(e);
         }
     }
+    
+    private void push(@NonNull String userId, @NonNull List<Message> messages) {
+        try {
+            Response<BotApiResponse> apiResponse = lineMessagingService
+            .replyMessage(new PushMessage(userId, messages))
+            .execute();
+            log.info("Push messages: {}", apiResponse);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
     private void replyText(@NonNull String replyToken, @NonNull String message) {
         if (replyToken.isEmpty()) {
@@ -214,6 +225,16 @@ public class KitchenSinkController {
             message = message.substring(0, 1000 - 2) + "……";
         }
         this.reply(replyToken, new TextMessage(message));
+    }
+    
+    private void pushText(@NonNull String userId, @NonNull String message) {
+        if (userId.isEmpty()) {
+            throw new IllegalArgumentException("userId must not be empty");
+        }
+        if (message.length() > 1000) {
+            message = message.substring(0, 1000 - 2) + "……";
+        }
+        this.push(userId, new TextMessage(message));
     }
 
     private void handleHeavyContent(String replyToken, String messageId,
@@ -372,6 +393,9 @@ public class KitchenSinkController {
                         replyToken,
                         text
                 );
+                
+                this.pushText(event.getSource().getUserId(), "台南張先生已經對您的物件送出個人履歷");
+                
                 break;
         }
     }
