@@ -406,9 +406,14 @@ public class KitchenSinkController {
     }
 
     private static String createUri(String path) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
+        
+        String uri =  ServletUriComponentsBuilder.fromCurrentContextPath()
                                           .path(path).build()
                                           .toUriString();
+        
+        log.debug("uri = " + uri);
+        
+        return uri;
     }
 
     private void system(String... args) {
@@ -440,6 +445,9 @@ public class KitchenSinkController {
     private static DownloadedContent createTempFile(String ext) {
         String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID().toString() + '.' + ext;
         Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
+        
+        log.debug("tempFile = " + tempFile.toAbsolutePath());
+        
         tempFile.toFile().deleteOnExit();
         return new DownloadedContent(
                 tempFile,
